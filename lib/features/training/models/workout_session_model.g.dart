@@ -11,6 +11,7 @@ _WorkoutSessionModel _$WorkoutSessionModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       userId: json['user_id'] as String,
       routineId: json['routine_id'] as String?,
+      workoutDayId: json['workout_day_id'] as String?,
       name: json['name'] as String?,
       startTime: DateTime.parse(json['start_time'] as String),
       endTime: json['end_time'] == null
@@ -35,6 +36,7 @@ Map<String, dynamic> _$WorkoutSessionModelToJson(
   'id': instance.id,
   'user_id': instance.userId,
   'routine_id': instance.routineId,
+  'workout_day_id': instance.workoutDayId,
   'name': instance.name,
   'start_time': instance.startTime.toIso8601String(),
   'end_time': instance.endTime?.toIso8601String(),
@@ -70,18 +72,30 @@ Map<String, dynamic> _$ExerciseLogModelToJson(_ExerciseLogModel instance) =>
 _SetLogModel _$SetLogModelFromJson(Map<String, dynamic> json) => _SetLogModel(
   id: json['id'] as String?,
   setOrder: (json['set_order'] as num).toInt(),
+  isDropSet: json['is_drop_set'] as bool? ?? false,
+  isWarmup: json['isWarmup'] as bool? ?? false,
+  isCompleted: json['isCompleted'] as bool? ?? false,
   weightKg: (json['weight_kg'] as num?)?.toDouble(),
   reps: (json['reps'] as num?)?.toInt(),
   rpe: (json['rpe'] as num?)?.toDouble(),
   rir: (json['rir'] as num?)?.toInt(),
+  maxVelocity: (json['max_velocity'] as num?)?.toDouble(),
+  durationSeconds: (json['duration_seconds'] as num?)?.toInt(),
+  restSeconds: (json['rest_seconds'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$SetLogModelToJson(_SetLogModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'set_order': instance.setOrder,
+      'is_drop_set': instance.isDropSet,
+      'isWarmup': instance.isWarmup,
+      'isCompleted': instance.isCompleted,
       'weight_kg': instance.weightKg,
       'reps': instance.reps,
       'rpe': instance.rpe,
       'rir': instance.rir,
+      'max_velocity': instance.maxVelocity,
+      'duration_seconds': instance.durationSeconds,
+      'rest_seconds': instance.restSeconds,
     };

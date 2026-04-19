@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../nutrition/presentation/screens/nutrition_dashboard.dart';
 import '../../../training/presentation/screens/training_screen.dart';
 import '../../../gamification/presentation/widgets/celebration_overlay.dart';
-import '../../../gamification/presentation/widgets/streak_flame.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,21 +18,18 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const NutritionDashboard(),
     const TrainingScreen(),
-    const Center(child: Text("Profile & Settings (Coming Soon)")),
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return CelebrationOverlay(
       child: Scaffold(
-        // Optional: Global AppBar if you want streak always visible, 
-        // but typically it's inside each tab's AppBar. 
+        // Optional: Global AppBar if you want streak always visible,
+        // but typically it's inside each tab's AppBar.
         // We will inject it into specific screens or use a global one here if design permits.
         // For now, let's keep screens independent but wrapped in Celebration.
-        body: IndexedStack(
-          index: _currentIndex,
-          children: _screens,
-        ),
+        body: IndexedStack(index: _currentIndex, children: _screens),
         bottomNavigationBar: NavigationBar(
           selectedIndex: _currentIndex,
           onDestinationSelected: (index) {
@@ -49,10 +46,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(FontAwesomeIcons.dumbbell),
               label: 'Training',
             ),
-            NavigationDestination(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
+            NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
       ),

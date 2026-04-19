@@ -1,5 +1,7 @@
 enum Gender { male, female }
+
 enum Goal { deficit, maintenance, surplus }
+
 enum ActivityLevel {
   sedentary(1.2),
   lightlyActive(1.375),
@@ -39,13 +41,13 @@ class NutritionCalculator {
     required Gender gender,
   }) {
     double bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
-    
+
     if (gender == Gender.male) {
       bmr += 5;
     } else {
       bmr -= 161;
     }
-    
+
     return bmr;
   }
 
@@ -111,7 +113,7 @@ class NutritionCalculator {
     double remainingCalories = targetCalories - proteinCalories - fatCalories;
     // Ensure remaining calories is not negative (edge case with very high macro settings)
     if (remainingCalories < 0) remainingCalories = 0;
-    
+
     double carbGrams = remainingCalories / 4;
 
     return MacroTargets(

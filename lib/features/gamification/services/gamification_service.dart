@@ -1,36 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/gamification_models.dart';
 
-final gamificationServiceProvider = Provider((ref) => GamificationService(Supabase.instance.client));
+final gamificationServiceProvider = Provider(
+  (ref) => GamificationService(FirebaseFirestore.instance, FirebaseAuth.instance),
+);
+
+final streakProvider = FutureProvider<UserStreak>((ref) async {
+  final service = ref.watch(gamificationServiceProvider);
+  return service.getUserStreak();
+});
 
 class GamificationService {
-  final SupabaseClient _supabase;
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
 
-  GamificationService(this._supabase);
+  GamificationService(this._firestore, this._auth);
 
   // --- Streaks ---
   Future<UserStreak> getUserStreak() async {
-    final userId = _supabase.auth.currentUser?.id;
+    final userId = _auth.currentUser?.uid;
     if (userId == null) throw Exception('User not logged in');
 
     try {
-      final response = await _supabase
-          .from('user_streaks')
-          .select()
-          .eq('user_id', userId)
-          .maybeSingle();
+      final docSnap = await _firestore
+          .collection('user_streaks')
+          .doc(userId)
+          .get();
 
-      if (response == null) {
+      if (!docSnap.exists) {
         // Create initial streak record
-        final newStreak = await _supabase
-            .from('user_streaks')
-            .insert({'user_id': userId})
-            .select()
-            .single();
-        return UserStreak.fromJson(newStreak);
+        final newStreakJson = {'user_id': userId, 'current_streak': 0, 'max_streak': 0, 'freeze_items_available': 0};
+        await _firestore.collection('user_streaks').doc(userId).set(newStreakJson);
+        return UserStreak.fromJson(newStreakJson);
       }
-      return UserStreak.fromJson(response);
+      return UserStreak.fromJson(docSnap.data()!);
     } catch (e) {
       print('Error fetching streak: $e');
       // Return a safe default if offline or error
@@ -39,29 +44,29 @@ class GamificationService {
   }
 
   Future<void> updateStreak() async {
-    final userId = _supabase.auth.currentUser?.id;
+    final userId = _auth.currentUser?.uid;
     if (userId == null) return;
 
     final streak = await getUserStreak();
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    
+
     // Check if already updated today
     if (streak.lastActivityDate != null) {
       final lastDate = streak.lastActivityDate!;
       final lastDay = DateTime(lastDate.year, lastDate.month, lastDate.day);
-      
+
       if (lastDay.isAtSameMomentAs(today)) {
         return; // Already counted for today
       }
     }
 
     // Logic for increment or reset
-    // This logic ideally lives in a Postgres Function to be atomic, 
+    // This logic ideally lives in a Postgres Function to be atomic,
     // but here is the client-side approximation.
-    
+
     int newCurrent = streak.currentStreak;
-    
+
     if (streak.lastActivityDate != null) {
       final difference = today.difference(streak.lastActivityDate!).inDays;
       if (difference == 1) {
@@ -71,47 +76,53 @@ class GamificationService {
         if (streak.freezeItemsAvailable > 0) {
           // Use freeze (logic would require decrementing freeze count)
           // For now, simple reset
-          newCurrent = 1; 
+          newCurrent = 1;
         } else {
           newCurrent = 1;
         }
       } else {
-        newCurrent = 1; // Should not happen if difference is 0 (handled above) or negative
+        newCurrent =
+            1; // Should not happen if difference is 0 (handled above) or negative
       }
     } else {
       newCurrent = 1; // First ever activity
     }
 
-    final newMax = newCurrent > streak.maxStreak ? newCurrent : streak.maxStreak;
+    final newMax = newCurrent > streak.maxStreak
+        ? newCurrent
+        : streak.maxStreak;
 
-    await _supabase.from('user_streaks').upsert({
+    await _firestore.collection('user_streaks').doc(userId).set({
       'user_id': userId,
       'current_streak': newCurrent,
       'max_streak': newMax,
       'last_activity_date': now.toIso8601String(),
-    });
+    }, SetOptions(merge: true));
   }
 
   // --- PRs ---
-  Future<bool> checkPersonalRecord(String exerciseId, double weight, int reps) async {
-    final userId = _supabase.auth.currentUser?.id;
+  Future<bool> checkPersonalRecord(
+    String exerciseId,
+    double weight,
+    int reps,
+  ) async {
+    final userId = _auth.currentUser?.uid;
     if (userId == null) return false;
 
     // Simplified check: Is this weight higher than any previous record for this exercise?
     // In a real app, you'd check estimated 1RM or specific rep ranges.
-    
-    final response = await _supabase
-        .from('personal_records')
-        .select()
-        .eq('user_id', userId)
-        .eq('exercise_id', exerciseId)
-        .order('weight_kg', ascending: false)
-        .limit(1)
-        .maybeSingle();
 
-    if (response == null || (response['weight_kg'] as num) < weight) {
+    final response = await _firestore
+        .collection('personal_records')
+        .where('user_id', isEqualTo: userId)
+        .where('exercise_id', isEqualTo: exerciseId)
+        .orderBy('weight_kg', descending: true)
+        .limit(1)
+        .get();
+
+    if (response.docs.isEmpty || (response.docs.first.data()['weight_kg'] as num) < weight) {
       // New PR! Save it.
-      await _supabase.from('personal_records').insert({
+      await _firestore.collection('personal_records').add({
         'user_id': userId,
         'exercise_id': exerciseId,
         'weight_kg': weight,
@@ -124,22 +135,26 @@ class GamificationService {
 
   // --- Achievements ---
   Future<List<Achievement>> getMyAchievements() async {
-    final userId = _supabase.auth.currentUser?.id;
+    final userId = _auth.currentUser?.uid;
     if (userId == null) return [];
 
     // 1. Get all achievements
-    final all = await _supabase.from('achievements').select();
-    
-    // 2. Get unlocked
-    final unlocked = await _supabase
-        .from('user_achievements')
-        .select('achievement_id')
-        .eq('user_id', userId);
-        
-    final unlockedIds = (unlocked as List).map((e) => e['achievement_id'] as String).toSet();
+    final all = await _firestore.collection('achievements').get();
 
-    return (all as List).map((e) {
-      final ach = Achievement.fromJson(e);
+    // 2. Get unlocked
+    final unlocked = await _firestore
+        .collection('user_achievements')
+        .where('user_id', isEqualTo: userId)
+        .get();
+
+    final unlockedIds = unlocked.docs
+        .map((e) => e.data()['achievement_id'] as String)
+        .toSet();
+
+    return all.docs.map((e) {
+      final data = e.data();
+      data['id'] = e.id; // Usually id is the document ID if not inside data
+      final ach = Achievement.fromJson(data);
       return ach.copyWith(isUnlocked: unlockedIds.contains(ach.id));
     }).toList();
   }
@@ -147,7 +162,7 @@ class GamificationService {
   Future<Achievement?> checkAchievementUnlock(String conditionCode) async {
     // This would be called after specific events.
     // E.g. after saving workout, call with 'workouts_update'
-    
+
     // Mock logic: randomly unlock 'iron_novice' for demo if condition matches
     if (conditionCode == 'workouts_10') {
       // Check real count...

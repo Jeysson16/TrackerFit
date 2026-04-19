@@ -10,10 +10,13 @@ abstract class UserStreak with _$UserStreak {
     @JsonKey(name: 'current_streak') @Default(0) int currentStreak,
     @JsonKey(name: 'max_streak') @Default(0) int maxStreak,
     @JsonKey(name: 'last_activity_date') DateTime? lastActivityDate,
-    @JsonKey(name: 'freeze_items_available') @Default(0) int freezeItemsAvailable,
+    @JsonKey(name: 'freeze_items_available')
+    @Default(0)
+    int freezeItemsAvailable,
   }) = _UserStreak;
 
-  factory UserStreak.fromJson(Map<String, dynamic> json) => _$UserStreakFromJson(json);
+  factory UserStreak.fromJson(Map<String, dynamic> json) =>
+      _$UserStreakFromJson(json);
 }
 
 @freezed
@@ -28,5 +31,6 @@ abstract class Achievement with _$Achievement {
     @Default(false) bool isUnlocked,
   }) = _Achievement;
 
-  factory Achievement.fromJson(Map<String, dynamic> json) => _$AchievementFromJson(json);
+  factory Achievement.fromJson(Map<String, dynamic> json) =>
+      _$AchievementFromJson(json);
 }

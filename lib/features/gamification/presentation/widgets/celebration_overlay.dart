@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CelebrationOverlay extends StatefulWidget {
   final Widget child;
-  
+
   const CelebrationOverlay({super.key, required this.child});
 
   static CelebrationOverlayState? of(BuildContext context) {
@@ -44,7 +44,13 @@ class CelebrationOverlayState extends State<CelebrationOverlay> {
             confettiController: _controller,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
-            colors: const [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+            colors: const [
+              Colors.green,
+              Colors.blue,
+              Colors.pink,
+              Colors.orange,
+              Colors.purple,
+            ],
           ),
         ),
       ],

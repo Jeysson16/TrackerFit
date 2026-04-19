@@ -60,12 +60,12 @@ class _TrainingCalendarState extends State<TrainingCalendar> {
           calendarBuilders: CalendarBuilders(
             markerBuilder: (context, day, events) {
               if (events.isEmpty) return null;
-              
+
               // Custom logic for dot color based on completion
               // Assuming events is a list of WorkoutSession objects or statuses
               // For simplicity, we just check count
               Color dotColor = Colors.green; // Default completed
-              
+
               // If we had more logic:
               // if (missed) dotColor = Colors.red;
               // if (rest) dotColor = Colors.yellow;

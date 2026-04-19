@@ -1,22 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'local_storage_service.dart';
 
-final syncControllerProvider = Provider((ref) => SyncController(
-  ref.read(localStorageProvider),
-  Supabase.instance.client,
-));
+final syncControllerProvider = Provider(
+  (ref) =>
+      SyncController(ref.read(localStorageProvider), FirebaseFirestore.instance),
+);
 
 class SyncController {
   final LocalStorageService _localStorage;
-  final SupabaseClient _supabase;
+  final FirebaseFirestore _firestore;
 
-  SyncController(this._localStorage, this._supabase);
+  SyncController(this._localStorage, this._firestore);
 
   Future<void> init() async {
     // Listen for connectivity changes
-    Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+    Connectivity().onConnectivityChanged.listen((
+      List<ConnectivityResult> result,
+    ) {
       if (!result.contains(ConnectivityResult.none)) {
         syncPendingData();
       }
@@ -41,9 +43,9 @@ class SyncController {
           await _syncWorkout(id);
         }
         // Remove from queue if successful
-        // Note: Removing by index while iterating can be tricky if not careful, 
+        // Note: Removing by index while iterating can be tricky if not careful,
         // but since we read the whole queue snapshot, we should clear the specific item or rebuild queue.
-        // For simplicity here, we'll clear the whole queue at the end if all succeed, 
+        // For simplicity here, we'll clear the whole queue at the end if all succeed,
         // or improved: delete processed item.
         // Here we just print success.
         print('Synced $type $id');
@@ -51,32 +53,40 @@ class SyncController {
         print('Failed to sync $type $id: $e');
       }
     }
-    
-    // Naive clear for this example. 
+
+    // Naive clear for this example.
     // Ideally: remove only successful ones.
-    await _localStorage.clearSyncQueue(); 
+    await _localStorage.clearSyncQueue();
   }
 
   Future<void> _syncWorkout(String localId) async {
     final workouts = _localStorage.getAllWorkouts();
-    final workout = workouts.firstWhere((w) => w.localId == localId, orElse: () => throw Exception('Workout not found locally'));
+    final workout = workouts.firstWhere(
+      (w) => w.localId == localId,
+      orElse: () => throw Exception('Workout not found locally'),
+    );
 
-    // Convert to Supabase JSON (removing local-only fields if necessary)
+    // Convert to Firebase JSON (removing local-only fields if necessary)
     // Here we use the same model, but we should ensure 'id' is handled if it's a UUID generated locally or by DB.
     // If localId is used as temp ID, we might need to swap it.
-    
+
     final workoutJson = workout.toJson();
-    // Remove null ID to let Postgres generate it, OR use client-generated UUIDs.
-    // workoutJson.remove('id'); 
+
+    // Use Firestore set with merge to effectively upsert
+    final docRef = _firestore.collection('workout_sessions').doc(localId); // Using localId as document ID for simplicity, assuming it's a UUID
     
-    final response = await _supabase.from('workout_sessions').upsert(workoutJson).select().single();
-    
-    // Update local with server response (e.g. true ID, synced_at)
+    // We can add a 'synced_at' timestamp
+    workoutJson['synced_at'] = FieldValue.serverTimestamp();
+
+    await docRef.set(workoutJson, SetOptions(merge: true));
+
+    // Get the timestamp we just wrote, or just use DateTime.now() since Firestore doesn't return the payload on set.
+    // To be precise we could just mark it synced locally.
     final updatedWorkout = workout.copyWith(
-      id: response['id'],
-      syncedAt: DateTime.parse(response['created_at']), // Use server time as sync time
+      id: docRef.id,
+      syncedAt: DateTime.now(),
     );
-    
+
     await _localStorage.saveWorkout(updatedWorkout);
   }
 }

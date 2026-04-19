@@ -40,11 +40,16 @@ class _RoutineCardState extends State<RoutineCard> {
               });
               widget.onTap();
             },
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.circular(16)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(16),
+              bottom: Radius.circular(16),
+            ),
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                border: Border(left: BorderSide(color: widget.templateColor, width: 6)),
+                border: Border(
+                  left: BorderSide(color: widget.templateColor, width: 6),
+                ),
               ),
               child: Row(
                 children: [
@@ -83,14 +88,16 @@ class _RoutineCardState extends State<RoutineCard> {
                     ),
                   ),
                   Icon(
-                    _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: Colors.grey,
                   ),
                 ],
               ),
             ),
           ),
-          
+
           // Expanded Content (Exercises)
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
@@ -103,19 +110,28 @@ class _RoutineCardState extends State<RoutineCard> {
                   const Divider(),
                   const Text(
                     'Planned Exercises:',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
                   ),
                   const SizedBox(height: 8),
-                  ...widget.exercises.map((e) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.circle, size: 6, color: Colors.black54),
-                        const SizedBox(width: 8),
-                        Text(e, style: const TextStyle(fontSize: 15)),
-                      ],
+                  ...widget.exercises.map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.circle,
+                            size: 6,
+                            color: Colors.black54,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(e, style: const TextStyle(fontSize: 15)),
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
                   const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
@@ -130,11 +146,13 @@ class _RoutineCardState extends State<RoutineCard> {
                       icon: const Icon(Icons.play_arrow),
                       label: const Text('Start Workout'),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: _isExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
           ),
         ],

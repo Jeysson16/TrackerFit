@@ -66,7 +66,10 @@ class _AutoRestTimerState extends State<AutoRestTimer> {
           const SizedBox(width: 8),
           Text(
             'Rest: $_timerString',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(width: 8),
           InkWell(
@@ -78,7 +81,10 @@ class _AutoRestTimerState extends State<AutoRestTimer> {
             },
             child: const Padding(
               padding: EdgeInsets.all(4.0),
-              child: Text('+30s', style: TextStyle(color: Colors.grey, fontSize: 12)),
+              child: Text(
+                '+30s',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ),
           ),
           InkWell(
@@ -101,7 +107,7 @@ class _AutoRestTimerState extends State<AutoRestTimer> {
 // Helper to show the overlay
 void showRestTimer(BuildContext context, int seconds) {
   OverlayEntry? entry;
-  
+
   entry = OverlayEntry(
     builder: (context) => Positioned(
       bottom: 100,

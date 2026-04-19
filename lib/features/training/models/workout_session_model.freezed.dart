@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WorkoutSessionModel {
 
- String? get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'routine_id') String? get routineId; String? get name;@JsonKey(name: 'start_time') DateTime get startTime;@JsonKey(name: 'end_time') DateTime? get endTime;@JsonKey(name: 'day_rating') int? get dayRating; String? get notes;// For Offline Sync
+ String? get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'routine_id') String? get routineId;@JsonKey(name: 'workout_day_id') String? get workoutDayId; String? get name;@JsonKey(name: 'start_time') DateTime get startTime;@JsonKey(name: 'end_time') DateTime? get endTime;@JsonKey(name: 'day_rating') int? get dayRating; String? get notes;// For Offline Sync
 @JsonKey(name: 'local_id') String? get localId;@JsonKey(name: 'synced_at') DateTime? get syncedAt;// Nested objects (Optional, depending on API response structure)
 @JsonKey(name: 'exercise_logs') List<ExerciseLogModel> get exercises;
 /// Create a copy of WorkoutSessionModel
@@ -30,16 +30,16 @@ $WorkoutSessionModelCopyWith<WorkoutSessionModel> get copyWith => _$WorkoutSessi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutSessionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.routineId, routineId) || other.routineId == routineId)&&(identical(other.name, name) || other.name == name)&&(identical(other.startTime, startTime) || other.startTime == startTime)&&(identical(other.endTime, endTime) || other.endTime == endTime)&&(identical(other.dayRating, dayRating) || other.dayRating == dayRating)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.localId, localId) || other.localId == localId)&&(identical(other.syncedAt, syncedAt) || other.syncedAt == syncedAt)&&const DeepCollectionEquality().equals(other.exercises, exercises));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutSessionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.routineId, routineId) || other.routineId == routineId)&&(identical(other.workoutDayId, workoutDayId) || other.workoutDayId == workoutDayId)&&(identical(other.name, name) || other.name == name)&&(identical(other.startTime, startTime) || other.startTime == startTime)&&(identical(other.endTime, endTime) || other.endTime == endTime)&&(identical(other.dayRating, dayRating) || other.dayRating == dayRating)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.localId, localId) || other.localId == localId)&&(identical(other.syncedAt, syncedAt) || other.syncedAt == syncedAt)&&const DeepCollectionEquality().equals(other.exercises, exercises));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,routineId,name,startTime,endTime,dayRating,notes,localId,syncedAt,const DeepCollectionEquality().hash(exercises));
+int get hashCode => Object.hash(runtimeType,id,userId,routineId,workoutDayId,name,startTime,endTime,dayRating,notes,localId,syncedAt,const DeepCollectionEquality().hash(exercises));
 
 @override
 String toString() {
-  return 'WorkoutSessionModel(id: $id, userId: $userId, routineId: $routineId, name: $name, startTime: $startTime, endTime: $endTime, dayRating: $dayRating, notes: $notes, localId: $localId, syncedAt: $syncedAt, exercises: $exercises)';
+  return 'WorkoutSessionModel(id: $id, userId: $userId, routineId: $routineId, workoutDayId: $workoutDayId, name: $name, startTime: $startTime, endTime: $endTime, dayRating: $dayRating, notes: $notes, localId: $localId, syncedAt: $syncedAt, exercises: $exercises)';
 }
 
 
@@ -50,7 +50,7 @@ abstract mixin class $WorkoutSessionModelCopyWith<$Res>  {
   factory $WorkoutSessionModelCopyWith(WorkoutSessionModel value, $Res Function(WorkoutSessionModel) _then) = _$WorkoutSessionModelCopyWithImpl;
 @useResult
 $Res call({
- String? id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'routine_id') String? routineId, String? name,@JsonKey(name: 'start_time') DateTime startTime,@JsonKey(name: 'end_time') DateTime? endTime,@JsonKey(name: 'day_rating') int? dayRating, String? notes,@JsonKey(name: 'local_id') String? localId,@JsonKey(name: 'synced_at') DateTime? syncedAt,@JsonKey(name: 'exercise_logs') List<ExerciseLogModel> exercises
+ String? id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'routine_id') String? routineId,@JsonKey(name: 'workout_day_id') String? workoutDayId, String? name,@JsonKey(name: 'start_time') DateTime startTime,@JsonKey(name: 'end_time') DateTime? endTime,@JsonKey(name: 'day_rating') int? dayRating, String? notes,@JsonKey(name: 'local_id') String? localId,@JsonKey(name: 'synced_at') DateTime? syncedAt,@JsonKey(name: 'exercise_logs') List<ExerciseLogModel> exercises
 });
 
 
@@ -67,11 +67,12 @@ class _$WorkoutSessionModelCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutSessionModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? userId = null,Object? routineId = freezed,Object? name = freezed,Object? startTime = null,Object? endTime = freezed,Object? dayRating = freezed,Object? notes = freezed,Object? localId = freezed,Object? syncedAt = freezed,Object? exercises = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? userId = null,Object? routineId = freezed,Object? workoutDayId = freezed,Object? name = freezed,Object? startTime = null,Object? endTime = freezed,Object? dayRating = freezed,Object? notes = freezed,Object? localId = freezed,Object? syncedAt = freezed,Object? exercises = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,routineId: freezed == routineId ? _self.routineId : routineId // ignore: cast_nullable_to_non_nullable
+as String?,workoutDayId: freezed == workoutDayId ? _self.workoutDayId : workoutDayId // ignore: cast_nullable_to_non_nullable
 as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,startTime: null == startTime ? _self.startTime : startTime // ignore: cast_nullable_to_non_nullable
 as DateTime,endTime: freezed == endTime ? _self.endTime : endTime // ignore: cast_nullable_to_non_nullable
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId, @JsonKey(name: 'workout_day_id')  String? workoutDayId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WorkoutSessionModel() when $default != null:
-return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
+return $default(_that.id,_that.userId,_that.routineId,_that.workoutDayId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId, @JsonKey(name: 'workout_day_id')  String? workoutDayId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutSessionModel():
-return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
+return $default(_that.id,_that.userId,_that.routineId,_that.workoutDayId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'routine_id')  String? routineId, @JsonKey(name: 'workout_day_id')  String? workoutDayId,  String? name, @JsonKey(name: 'start_time')  DateTime startTime, @JsonKey(name: 'end_time')  DateTime? endTime, @JsonKey(name: 'day_rating')  int? dayRating,  String? notes, @JsonKey(name: 'local_id')  String? localId, @JsonKey(name: 'synced_at')  DateTime? syncedAt, @JsonKey(name: 'exercise_logs')  List<ExerciseLogModel> exercises)?  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutSessionModel() when $default != null:
-return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
+return $default(_that.id,_that.userId,_that.routineId,_that.workoutDayId,_that.name,_that.startTime,_that.endTime,_that.dayRating,_that.notes,_that.localId,_that.syncedAt,_that.exercises);case _:
   return null;
 
 }
@@ -221,12 +222,13 @@ return $default(_that.id,_that.userId,_that.routineId,_that.name,_that.startTime
 @JsonSerializable()
 
 class _WorkoutSessionModel implements WorkoutSessionModel {
-  const _WorkoutSessionModel({this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'routine_id') this.routineId, this.name, @JsonKey(name: 'start_time') required this.startTime, @JsonKey(name: 'end_time') this.endTime, @JsonKey(name: 'day_rating') this.dayRating, this.notes, @JsonKey(name: 'local_id') this.localId, @JsonKey(name: 'synced_at') this.syncedAt, @JsonKey(name: 'exercise_logs') final  List<ExerciseLogModel> exercises = const []}): _exercises = exercises;
+  const _WorkoutSessionModel({this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'routine_id') this.routineId, @JsonKey(name: 'workout_day_id') this.workoutDayId, this.name, @JsonKey(name: 'start_time') required this.startTime, @JsonKey(name: 'end_time') this.endTime, @JsonKey(name: 'day_rating') this.dayRating, this.notes, @JsonKey(name: 'local_id') this.localId, @JsonKey(name: 'synced_at') this.syncedAt, @JsonKey(name: 'exercise_logs') final  List<ExerciseLogModel> exercises = const []}): _exercises = exercises;
   factory _WorkoutSessionModel.fromJson(Map<String, dynamic> json) => _$WorkoutSessionModelFromJson(json);
 
 @override final  String? id;
 @override@JsonKey(name: 'user_id') final  String userId;
 @override@JsonKey(name: 'routine_id') final  String? routineId;
+@override@JsonKey(name: 'workout_day_id') final  String? workoutDayId;
 @override final  String? name;
 @override@JsonKey(name: 'start_time') final  DateTime startTime;
 @override@JsonKey(name: 'end_time') final  DateTime? endTime;
@@ -258,16 +260,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutSessionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.routineId, routineId) || other.routineId == routineId)&&(identical(other.name, name) || other.name == name)&&(identical(other.startTime, startTime) || other.startTime == startTime)&&(identical(other.endTime, endTime) || other.endTime == endTime)&&(identical(other.dayRating, dayRating) || other.dayRating == dayRating)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.localId, localId) || other.localId == localId)&&(identical(other.syncedAt, syncedAt) || other.syncedAt == syncedAt)&&const DeepCollectionEquality().equals(other._exercises, _exercises));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutSessionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.routineId, routineId) || other.routineId == routineId)&&(identical(other.workoutDayId, workoutDayId) || other.workoutDayId == workoutDayId)&&(identical(other.name, name) || other.name == name)&&(identical(other.startTime, startTime) || other.startTime == startTime)&&(identical(other.endTime, endTime) || other.endTime == endTime)&&(identical(other.dayRating, dayRating) || other.dayRating == dayRating)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.localId, localId) || other.localId == localId)&&(identical(other.syncedAt, syncedAt) || other.syncedAt == syncedAt)&&const DeepCollectionEquality().equals(other._exercises, _exercises));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,routineId,name,startTime,endTime,dayRating,notes,localId,syncedAt,const DeepCollectionEquality().hash(_exercises));
+int get hashCode => Object.hash(runtimeType,id,userId,routineId,workoutDayId,name,startTime,endTime,dayRating,notes,localId,syncedAt,const DeepCollectionEquality().hash(_exercises));
 
 @override
 String toString() {
-  return 'WorkoutSessionModel(id: $id, userId: $userId, routineId: $routineId, name: $name, startTime: $startTime, endTime: $endTime, dayRating: $dayRating, notes: $notes, localId: $localId, syncedAt: $syncedAt, exercises: $exercises)';
+  return 'WorkoutSessionModel(id: $id, userId: $userId, routineId: $routineId, workoutDayId: $workoutDayId, name: $name, startTime: $startTime, endTime: $endTime, dayRating: $dayRating, notes: $notes, localId: $localId, syncedAt: $syncedAt, exercises: $exercises)';
 }
 
 
@@ -278,7 +280,7 @@ abstract mixin class _$WorkoutSessionModelCopyWith<$Res> implements $WorkoutSess
   factory _$WorkoutSessionModelCopyWith(_WorkoutSessionModel value, $Res Function(_WorkoutSessionModel) _then) = __$WorkoutSessionModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'routine_id') String? routineId, String? name,@JsonKey(name: 'start_time') DateTime startTime,@JsonKey(name: 'end_time') DateTime? endTime,@JsonKey(name: 'day_rating') int? dayRating, String? notes,@JsonKey(name: 'local_id') String? localId,@JsonKey(name: 'synced_at') DateTime? syncedAt,@JsonKey(name: 'exercise_logs') List<ExerciseLogModel> exercises
+ String? id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'routine_id') String? routineId,@JsonKey(name: 'workout_day_id') String? workoutDayId, String? name,@JsonKey(name: 'start_time') DateTime startTime,@JsonKey(name: 'end_time') DateTime? endTime,@JsonKey(name: 'day_rating') int? dayRating, String? notes,@JsonKey(name: 'local_id') String? localId,@JsonKey(name: 'synced_at') DateTime? syncedAt,@JsonKey(name: 'exercise_logs') List<ExerciseLogModel> exercises
 });
 
 
@@ -295,11 +297,12 @@ class __$WorkoutSessionModelCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutSessionModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? userId = null,Object? routineId = freezed,Object? name = freezed,Object? startTime = null,Object? endTime = freezed,Object? dayRating = freezed,Object? notes = freezed,Object? localId = freezed,Object? syncedAt = freezed,Object? exercises = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? userId = null,Object? routineId = freezed,Object? workoutDayId = freezed,Object? name = freezed,Object? startTime = null,Object? endTime = freezed,Object? dayRating = freezed,Object? notes = freezed,Object? localId = freezed,Object? syncedAt = freezed,Object? exercises = null,}) {
   return _then(_WorkoutSessionModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,routineId: freezed == routineId ? _self.routineId : routineId // ignore: cast_nullable_to_non_nullable
+as String?,workoutDayId: freezed == workoutDayId ? _self.workoutDayId : workoutDayId // ignore: cast_nullable_to_non_nullable
 as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,startTime: null == startTime ? _self.startTime : startTime // ignore: cast_nullable_to_non_nullable
 as DateTime,endTime: freezed == endTime ? _self.endTime : endTime // ignore: cast_nullable_to_non_nullable
@@ -600,7 +603,7 @@ as List<SetLogModel>,
 /// @nodoc
 mixin _$SetLogModel {
 
- String? get id;@JsonKey(name: 'set_order') int get setOrder;@JsonKey(name: 'weight_kg') double? get weightKg; int? get reps; double? get rpe; int? get rir;
+ String? get id;@JsonKey(name: 'set_order') int get setOrder;@JsonKey(name: 'is_drop_set') bool get isDropSet; bool get isWarmup; bool get isCompleted;@JsonKey(name: 'weight_kg') double? get weightKg; int? get reps; double? get rpe; int? get rir;@JsonKey(name: 'max_velocity') double? get maxVelocity;@JsonKey(name: 'duration_seconds') int? get durationSeconds;@JsonKey(name: 'rest_seconds') int? get restSeconds;
 /// Create a copy of SetLogModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -613,16 +616,16 @@ $SetLogModelCopyWith<SetLogModel> get copyWith => _$SetLogModelCopyWithImpl<SetL
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.setOrder, setOrder) || other.setOrder == setOrder)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.rpe, rpe) || other.rpe == rpe)&&(identical(other.rir, rir) || other.rir == rir));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.setOrder, setOrder) || other.setOrder == setOrder)&&(identical(other.isDropSet, isDropSet) || other.isDropSet == isDropSet)&&(identical(other.isWarmup, isWarmup) || other.isWarmup == isWarmup)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.rpe, rpe) || other.rpe == rpe)&&(identical(other.rir, rir) || other.rir == rir)&&(identical(other.maxVelocity, maxVelocity) || other.maxVelocity == maxVelocity)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.restSeconds, restSeconds) || other.restSeconds == restSeconds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,setOrder,weightKg,reps,rpe,rir);
+int get hashCode => Object.hash(runtimeType,id,setOrder,isDropSet,isWarmup,isCompleted,weightKg,reps,rpe,rir,maxVelocity,durationSeconds,restSeconds);
 
 @override
 String toString() {
-  return 'SetLogModel(id: $id, setOrder: $setOrder, weightKg: $weightKg, reps: $reps, rpe: $rpe, rir: $rir)';
+  return 'SetLogModel(id: $id, setOrder: $setOrder, isDropSet: $isDropSet, isWarmup: $isWarmup, isCompleted: $isCompleted, weightKg: $weightKg, reps: $reps, rpe: $rpe, rir: $rir, maxVelocity: $maxVelocity, durationSeconds: $durationSeconds, restSeconds: $restSeconds)';
 }
 
 
@@ -633,7 +636,7 @@ abstract mixin class $SetLogModelCopyWith<$Res>  {
   factory $SetLogModelCopyWith(SetLogModel value, $Res Function(SetLogModel) _then) = _$SetLogModelCopyWithImpl;
 @useResult
 $Res call({
- String? id,@JsonKey(name: 'set_order') int setOrder,@JsonKey(name: 'weight_kg') double? weightKg, int? reps, double? rpe, int? rir
+ String? id,@JsonKey(name: 'set_order') int setOrder,@JsonKey(name: 'is_drop_set') bool isDropSet, bool isWarmup, bool isCompleted,@JsonKey(name: 'weight_kg') double? weightKg, int? reps, double? rpe, int? rir,@JsonKey(name: 'max_velocity') double? maxVelocity,@JsonKey(name: 'duration_seconds') int? durationSeconds,@JsonKey(name: 'rest_seconds') int? restSeconds
 });
 
 
@@ -650,14 +653,20 @@ class _$SetLogModelCopyWithImpl<$Res>
 
 /// Create a copy of SetLogModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? setOrder = null,Object? weightKg = freezed,Object? reps = freezed,Object? rpe = freezed,Object? rir = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? setOrder = null,Object? isDropSet = null,Object? isWarmup = null,Object? isCompleted = null,Object? weightKg = freezed,Object? reps = freezed,Object? rpe = freezed,Object? rir = freezed,Object? maxVelocity = freezed,Object? durationSeconds = freezed,Object? restSeconds = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,setOrder: null == setOrder ? _self.setOrder : setOrder // ignore: cast_nullable_to_non_nullable
-as int,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
+as int,isDropSet: null == isDropSet ? _self.isDropSet : isDropSet // ignore: cast_nullable_to_non_nullable
+as bool,isWarmup: null == isWarmup ? _self.isWarmup : isWarmup // ignore: cast_nullable_to_non_nullable
+as bool,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
+as bool,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as double?,reps: freezed == reps ? _self.reps : reps // ignore: cast_nullable_to_non_nullable
 as int?,rpe: freezed == rpe ? _self.rpe : rpe // ignore: cast_nullable_to_non_nullable
 as double?,rir: freezed == rir ? _self.rir : rir // ignore: cast_nullable_to_non_nullable
+as int?,maxVelocity: freezed == maxVelocity ? _self.maxVelocity : maxVelocity // ignore: cast_nullable_to_non_nullable
+as double?,durationSeconds: freezed == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
+as int?,restSeconds: freezed == restSeconds ? _self.restSeconds : restSeconds // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -743,10 +752,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'is_drop_set')  bool isDropSet,  bool isWarmup,  bool isCompleted, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir, @JsonKey(name: 'max_velocity')  double? maxVelocity, @JsonKey(name: 'duration_seconds')  int? durationSeconds, @JsonKey(name: 'rest_seconds')  int? restSeconds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SetLogModel() when $default != null:
-return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_that.rir);case _:
+return $default(_that.id,_that.setOrder,_that.isDropSet,_that.isWarmup,_that.isCompleted,_that.weightKg,_that.reps,_that.rpe,_that.rir,_that.maxVelocity,_that.durationSeconds,_that.restSeconds);case _:
   return orElse();
 
 }
@@ -764,10 +773,10 @@ return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'is_drop_set')  bool isDropSet,  bool isWarmup,  bool isCompleted, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir, @JsonKey(name: 'max_velocity')  double? maxVelocity, @JsonKey(name: 'duration_seconds')  int? durationSeconds, @JsonKey(name: 'rest_seconds')  int? restSeconds)  $default,) {final _that = this;
 switch (_that) {
 case _SetLogModel():
-return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_that.rir);case _:
+return $default(_that.id,_that.setOrder,_that.isDropSet,_that.isWarmup,_that.isCompleted,_that.weightKg,_that.reps,_that.rpe,_that.rir,_that.maxVelocity,_that.durationSeconds,_that.restSeconds);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -784,10 +793,10 @@ return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id, @JsonKey(name: 'set_order')  int setOrder, @JsonKey(name: 'is_drop_set')  bool isDropSet,  bool isWarmup,  bool isCompleted, @JsonKey(name: 'weight_kg')  double? weightKg,  int? reps,  double? rpe,  int? rir, @JsonKey(name: 'max_velocity')  double? maxVelocity, @JsonKey(name: 'duration_seconds')  int? durationSeconds, @JsonKey(name: 'rest_seconds')  int? restSeconds)?  $default,) {final _that = this;
 switch (_that) {
 case _SetLogModel() when $default != null:
-return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_that.rir);case _:
+return $default(_that.id,_that.setOrder,_that.isDropSet,_that.isWarmup,_that.isCompleted,_that.weightKg,_that.reps,_that.rpe,_that.rir,_that.maxVelocity,_that.durationSeconds,_that.restSeconds);case _:
   return null;
 
 }
@@ -799,15 +808,21 @@ return $default(_that.id,_that.setOrder,_that.weightKg,_that.reps,_that.rpe,_tha
 @JsonSerializable()
 
 class _SetLogModel implements SetLogModel {
-  const _SetLogModel({this.id, @JsonKey(name: 'set_order') required this.setOrder, @JsonKey(name: 'weight_kg') this.weightKg, this.reps, this.rpe, this.rir});
+  const _SetLogModel({this.id, @JsonKey(name: 'set_order') required this.setOrder, @JsonKey(name: 'is_drop_set') this.isDropSet = false, this.isWarmup = false, this.isCompleted = false, @JsonKey(name: 'weight_kg') this.weightKg, this.reps, this.rpe, this.rir, @JsonKey(name: 'max_velocity') this.maxVelocity, @JsonKey(name: 'duration_seconds') this.durationSeconds, @JsonKey(name: 'rest_seconds') this.restSeconds});
   factory _SetLogModel.fromJson(Map<String, dynamic> json) => _$SetLogModelFromJson(json);
 
 @override final  String? id;
 @override@JsonKey(name: 'set_order') final  int setOrder;
+@override@JsonKey(name: 'is_drop_set') final  bool isDropSet;
+@override@JsonKey() final  bool isWarmup;
+@override@JsonKey() final  bool isCompleted;
 @override@JsonKey(name: 'weight_kg') final  double? weightKg;
 @override final  int? reps;
 @override final  double? rpe;
 @override final  int? rir;
+@override@JsonKey(name: 'max_velocity') final  double? maxVelocity;
+@override@JsonKey(name: 'duration_seconds') final  int? durationSeconds;
+@override@JsonKey(name: 'rest_seconds') final  int? restSeconds;
 
 /// Create a copy of SetLogModel
 /// with the given fields replaced by the non-null parameter values.
@@ -822,16 +837,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.setOrder, setOrder) || other.setOrder == setOrder)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.rpe, rpe) || other.rpe == rpe)&&(identical(other.rir, rir) || other.rir == rir));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetLogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.setOrder, setOrder) || other.setOrder == setOrder)&&(identical(other.isDropSet, isDropSet) || other.isDropSet == isDropSet)&&(identical(other.isWarmup, isWarmup) || other.isWarmup == isWarmup)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.rpe, rpe) || other.rpe == rpe)&&(identical(other.rir, rir) || other.rir == rir)&&(identical(other.maxVelocity, maxVelocity) || other.maxVelocity == maxVelocity)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.restSeconds, restSeconds) || other.restSeconds == restSeconds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,setOrder,weightKg,reps,rpe,rir);
+int get hashCode => Object.hash(runtimeType,id,setOrder,isDropSet,isWarmup,isCompleted,weightKg,reps,rpe,rir,maxVelocity,durationSeconds,restSeconds);
 
 @override
 String toString() {
-  return 'SetLogModel(id: $id, setOrder: $setOrder, weightKg: $weightKg, reps: $reps, rpe: $rpe, rir: $rir)';
+  return 'SetLogModel(id: $id, setOrder: $setOrder, isDropSet: $isDropSet, isWarmup: $isWarmup, isCompleted: $isCompleted, weightKg: $weightKg, reps: $reps, rpe: $rpe, rir: $rir, maxVelocity: $maxVelocity, durationSeconds: $durationSeconds, restSeconds: $restSeconds)';
 }
 
 
@@ -842,7 +857,7 @@ abstract mixin class _$SetLogModelCopyWith<$Res> implements $SetLogModelCopyWith
   factory _$SetLogModelCopyWith(_SetLogModel value, $Res Function(_SetLogModel) _then) = __$SetLogModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? id,@JsonKey(name: 'set_order') int setOrder,@JsonKey(name: 'weight_kg') double? weightKg, int? reps, double? rpe, int? rir
+ String? id,@JsonKey(name: 'set_order') int setOrder,@JsonKey(name: 'is_drop_set') bool isDropSet, bool isWarmup, bool isCompleted,@JsonKey(name: 'weight_kg') double? weightKg, int? reps, double? rpe, int? rir,@JsonKey(name: 'max_velocity') double? maxVelocity,@JsonKey(name: 'duration_seconds') int? durationSeconds,@JsonKey(name: 'rest_seconds') int? restSeconds
 });
 
 
@@ -859,14 +874,20 @@ class __$SetLogModelCopyWithImpl<$Res>
 
 /// Create a copy of SetLogModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? setOrder = null,Object? weightKg = freezed,Object? reps = freezed,Object? rpe = freezed,Object? rir = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? setOrder = null,Object? isDropSet = null,Object? isWarmup = null,Object? isCompleted = null,Object? weightKg = freezed,Object? reps = freezed,Object? rpe = freezed,Object? rir = freezed,Object? maxVelocity = freezed,Object? durationSeconds = freezed,Object? restSeconds = freezed,}) {
   return _then(_SetLogModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,setOrder: null == setOrder ? _self.setOrder : setOrder // ignore: cast_nullable_to_non_nullable
-as int,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
+as int,isDropSet: null == isDropSet ? _self.isDropSet : isDropSet // ignore: cast_nullable_to_non_nullable
+as bool,isWarmup: null == isWarmup ? _self.isWarmup : isWarmup // ignore: cast_nullable_to_non_nullable
+as bool,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
+as bool,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as double?,reps: freezed == reps ? _self.reps : reps // ignore: cast_nullable_to_non_nullable
 as int?,rpe: freezed == rpe ? _self.rpe : rpe // ignore: cast_nullable_to_non_nullable
 as double?,rir: freezed == rir ? _self.rir : rir // ignore: cast_nullable_to_non_nullable
+as int?,maxVelocity: freezed == maxVelocity ? _self.maxVelocity : maxVelocity // ignore: cast_nullable_to_non_nullable
+as double?,durationSeconds: freezed == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
+as int?,restSeconds: freezed == restSeconds ? _self.restSeconds : restSeconds // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }

@@ -114,6 +114,44 @@ class NutritionDashboard extends ConsumerWidget {
               ),
 
               const SizedBox(height: 24),
+              Text(
+                'Recommended Meals',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 160,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _buildRecommendedMealCard(
+                      context,
+                      'Oatmeal & Berries',
+                      '350 kcal • 15g P • 50g C • 8g F',
+                      Icons.breakfast_dining,
+                      Colors.orangeAccent,
+                    ),
+                    const SizedBox(width: 12),
+                    _buildRecommendedMealCard(
+                      context,
+                      'Grilled Chicken Salad',
+                      '420 kcal • 45g P • 20g C • 15g F',
+                      Icons.lunch_dining,
+                      Colors.greenAccent,
+                    ),
+                    const SizedBox(width: 12),
+                    _buildRecommendedMealCard(
+                      context,
+                      'Protein Shake',
+                      '220 kcal • 30g P • 10g C • 5g F',
+                      Icons.local_drink,
+                      Colors.purpleAccent,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -210,6 +248,42 @@ class NutritionDashboard extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildRecommendedMealCard(
+    BuildContext context,
+    String title,
+    String subtitle,
+    IconData icon,
+    Color color,
+  ) {
+    return Container(
+      width: 200,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withOpacity(0.5)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: color, size: 32),
+          const Spacer(),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+          ),
+        ],
       ),
     );
   }

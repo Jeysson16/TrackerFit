@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 // Use env var for key in production
-final geminiTrainingCoachProvider = Provider((ref) => GeminiTrainingCoach('YOUR_GEMINI_API_KEY'));
+final geminiTrainingCoachProvider = Provider(
+  (ref) => GeminiTrainingCoach('YOUR_GEMINI_API_KEY'),
+);
 
 class GeminiTrainingCoach {
   final String apiKey;
@@ -21,7 +23,8 @@ class GeminiTrainingCoach {
     required String userNotes,
     Map<String, dynamic>? previousSessionStats,
   }) async {
-    final prompt = '''
+    final prompt =
+        '''
     Actúa como un entrenador personal de alto rendimiento.
     El usuario completó la sesión '$routineName'.
     Datos actuales:
@@ -46,10 +49,12 @@ class GeminiTrainingCoach {
 
   /// 2. Análisis de Mesociclo (JSON Output)
   Future<Map<String, dynamic>> analyzeMesocycle({
-    required List<Map<String, dynamic>> weeklyVolumes, // [{'muscle': 'chest', 'sets': 10, 'volume': 5000}...]
+    required List<Map<String, dynamic>>
+    weeklyVolumes, // [{'muscle': 'chest', 'sets': 10, 'volume': 5000}...]
     required String userFeedback, // "Me duelen las rodillas"
   }) async {
-    final prompt = '''
+    final prompt =
+        '''
     Analiza el progreso de las últimas 4 semanas.
     Volúmenes semanales: ${jsonEncode(weeklyVolumes)}
     Feedback usuario: "$userFeedback"
@@ -70,8 +75,11 @@ class GeminiTrainingCoach {
     try {
       final content = [Content.text(prompt)];
       final response = await _model.generateContent(content);
-      final text = response.text?.replaceAll('```json', '').replaceAll('```', '').trim();
-      
+      final text = response.text
+          ?.replaceAll('```json', '')
+          .replaceAll('```', '')
+          .trim();
+
       if (text != null) {
         return jsonDecode(text);
       }

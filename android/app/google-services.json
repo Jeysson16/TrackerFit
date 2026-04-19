@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816611458402",
+    "project_id": "activities-schedules",
+    "storage_bucket": "activities-schedules.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816611458402:android:6632aa277eda50ab38003b",
+        "android_client_info": {
+          "package_name": "com.smartfitai.smart_fit_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrjfgHF7sj5CBuxhEvnF-BPhX_f_b5P0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

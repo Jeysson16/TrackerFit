@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'features/home/presentation/screens/main_screen.dart';
+import 'core/services/local_storage_service.dart';
+import 'features/training/repositories/training_repository.dart';
+import 'features/training/repositories/seed_data.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    // TODO: User must provide valid keys in order to run the app.
-    // Replace with your actual Supabase credentials.
-    url: 'https://wwpodtocyzlfpxdgbpee.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3cG9kdG9jeXpsZnB4ZGdicGVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwOTc3NjUsImV4cCI6MjA3NzY3Mzc2NX0.f3tEGSZf1uApop88Df9-RfwELolujAfeAZHXwazCeiQ',
-  );
+  // Initialize Local Storage (Hive)
+  final localStorageService = LocalStorageService();
+  await localStorageService.init();
+  
+  // Plantar Data Semilla de Gimnasio/Karate/Oficina
+  final trainingRepo = TrainingRepository(localStorageService);
+  await seedKarateGymHybridPlan(trainingRepo);
+
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint('Firebase init error: $e');
+  }
 
   runApp(const ProviderScope(child: MyApp()));
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import '../../services/gamification_service.dart';
 
 final streakProvider = FutureProvider((ref) async {
@@ -30,7 +29,7 @@ class StreakFlame extends ConsumerWidget {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                   if (isActive)
+                  if (isActive)
                     Container(
                       width: 20,
                       height: 20,
@@ -41,7 +40,7 @@ class StreakFlame extends ConsumerWidget {
                             color: Colors.orange.withOpacity(0.6),
                             blurRadius: 10,
                             spreadRadius: 2,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -64,8 +63,13 @@ class StreakFlame extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
-      error: (_, __) => const Icon(Icons.error_outline, size: 20, color: Colors.grey),
+      loading: () => const SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      ),
+      error: (_, __) =>
+          const Icon(Icons.error_outline, size: 20, color: Colors.grey),
     );
   }
 }

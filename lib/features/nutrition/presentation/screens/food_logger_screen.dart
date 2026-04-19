@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../models/food_product.dart';
 import '../../models/meal_log.dart';
 import '../../repositories/food_repository.dart';
+import '../providers/nutrition_provider.dart';
 
 class FoodLoggerScreen extends ConsumerStatefulWidget {
   const FoodLoggerScreen({super.key});
@@ -256,12 +257,18 @@ class _FoodLoggerScreenState extends ConsumerState<FoodLoggerScreen>
       const Center(child: Text('Scanner Camera View Here'));
   Widget _buildAIPlaceholder() =>
       const Center(child: Text('Gemini AI Input Here'));
+  final TextEditingController _quickNameController = TextEditingController();
+  final TextEditingController _quickCaloriesController =
+      TextEditingController();
+  final TextEditingController _quickProteinController = TextEditingController();
+
   Widget _buildQuickAddPlaceholder() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
           TextField(
+            controller: _quickNameController,
             decoration: const InputDecoration(
               labelText: 'Food Name',
               hintText: 'e.g., Banana',
@@ -272,6 +279,7 @@ class _FoodLoggerScreenState extends ConsumerState<FoodLoggerScreen>
             children: [
               Expanded(
                 child: TextField(
+                  controller: _quickCaloriesController,
                   decoration: const InputDecoration(labelText: 'Calories'),
                   keyboardType: TextInputType.number,
                 ),
@@ -279,6 +287,7 @@ class _FoodLoggerScreenState extends ConsumerState<FoodLoggerScreen>
               const SizedBox(width: 16),
               Expanded(
                 child: TextField(
+                  controller: _quickProteinController,
                   decoration: const InputDecoration(labelText: 'Protein (g)'),
                   keyboardType: TextInputType.number,
                 ),
@@ -289,9 +298,34 @@ class _FoodLoggerScreenState extends ConsumerState<FoodLoggerScreen>
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                // Implement simple add logic
-                Navigator.pop(context);
+              onPressed: () async {
+                final name = _quickNameController.text.trim();
+                final cals =
+                    double.tryParse(_quickCaloriesController.text) ?? 0;
+                final protein =
+                    double.tryParse(_quickProteinController.text) ?? 0;
+
+                if (name.isNotEmpty) {
+                  final log = MealLog(
+                    userId: 'CURRENT_USER_ID',
+                    date: DateTime.now(),
+                    mealType: MealType.snack,
+                    customName: name,
+                    quantityConsumed: 1,
+                    unit: 'serving',
+                    totalCalories: cals,
+                    totalProtein: protein,
+                    totalCarbs: 0.0,
+                    totalFat: 0.0,
+                  );
+
+                  await ref.read(foodRepositoryProvider).logMeal(log);
+
+                  if (mounted) {
+                    ref.invalidate(dailyLogsProvider); // Refresh dashboard
+                    Navigator.pop(context);
+                  }
+                }
               },
               child: const Text('Quick Add'),
             ),
